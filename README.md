@@ -6,7 +6,7 @@ Required parameters are `property` and either `file` or `versionstring`.
 
 | Parameter (default)		| Explanation |
 |---------------------|-------------|
-| releasetype (build)	| Defines which part of the version number is incremented. Possible values: major, minor, patch|bugfix|revision, build or integers 1-4. |
+| releasetype (build)	| Defines which part of the version number is incremented. Possible values: major, minor, patch/bugfix/revision, build or integers 1-4. |
 | file								| File that contains the version number. Version number is always stored as `major.minor.patch.build`. |
 | property						| Name of the variable that is used to store the version number. |
 | first (major)				| First part of the version number to get. |
@@ -16,6 +16,7 @@ Required parameters are `property` and either `file` or `versionstring`.
 | versionstring				| If you want to use this task just to transform a version number into another format, you can use `versionstring` instead of specifying a file. |
 | buildseparator (".")| If you want to use another character besides dot to separate the build number from the rest of the version number, please feel free to do so by using `buildseparator`. |
 | prerelease					| A string to use as the pre-release part. For example: "alpha", "dev" etc. |
+| custom							| A custom string to inject into the version number string. Not probably that useful, but there it is. |
 
 ## Parameter examples
 
