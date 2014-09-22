@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * @package			No package
- * @subpackage	
+ * @package			Phing
  * @copyright		Copyright (c) 2014 Saimiri Design (http://www.saimiri.fi/)
  * @author			Juha Auvinen <juha@saimiri.fi>
  * @license			http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
- * @version			Release: @package_version@
  * @since				File available since Release 1.0.0
  */
 class VersionNumber
@@ -31,7 +29,6 @@ class VersionNumber
 	protected $buildSeparator;
 	protected $custom;
 	protected $preRelease;
-	protected $releaseType;
 	protected $versionNumberMap = array(
 		0 => 'major',
 		1 => 'minor',
@@ -43,10 +40,9 @@ class VersionNumber
 	 * Constructor.
 	 * 
 	 * @param string $versionString Version string
-	 * @param string|integer $releaseType 
 	 * @param string $preRelease Pre-release string to use, .ie "alpha", "dev" etc.
 	 */
-	public function __construct( $versionString, $releaseType, $preRelease = null ) {
+	public function __construct( $versionString, $preRelease = null ) {
 		$versionParts = explode( '.', $versionString );
 		for ( $i = 0; $i < 4; $i++ ) {
 			$paramName = $this->versionNumberMap[$i];
@@ -57,7 +53,6 @@ class VersionNumber
 			}
 		}
 		$this->preRelease = $preRelease;
-		$this->releaseType = $this->versionNumberMap[$this->seekVersionNumberMap( $releaseType )];
 		$this->buildSeparator = '.';
 	}
 	
@@ -101,10 +96,10 @@ class VersionNumber
 	
 	/**
 	 * Gets parts of the version string specified by $from and $to. Values are:
-	 * 1 or "major" = major version
-	 * 2 or "minor" = minor version
-	 * 3 or "patch" = patch version
-	 * 4 or "build" = build number
+	 * 0 or "major" = major version
+	 * 1 or "minor" = minor version
+	 * 2 or "patch" = patch version
+	 * 3 or "build" = build number
 	 * 
 	 * @param integer $from First part to get
 	 * @param integer $to Last part to get
@@ -118,26 +113,31 @@ class VersionNumber
 	}
 	
 	/**
-	 * Increments the specified part of version number. If no part is given
-	 * increments the part corresponding self::releaseType.
+	 * Increments the specified part of version number. Accepts both string and
+	 * integer representations of the version number part.
 	 * 
 	 * @param integer $part The part of the version number to increment.
 	 */
 	public function increment( $part = null ) {
-		if ( $part === null ) {
-			$part = $this->releaseType;
-		}
-		if ( isset( $this->$part ) ) {
-			$this->$part++;
-			// Always increment build number
-			if ( $part != 'build' ) {
-				$this->build++;
+		if ( $part !== null ) {
+			if ( isset( $this->$part ) ) {
+				$this->$part++;
+			} else if ( isset( $this->versionNumberMap[$part] ) ) {
+				$part = $this->versionNumberMap[$part];
+				$this->$part++;
+			} else {
+				throw new Exception( '"' . $part . '" is not a recognized part of version number.' );
 			}
+		}
+		
+		// Always increment build number
+		if ( $part != 'build' && $part != 3 ) {
+			$this->build++;
 		}
 	}
 	
 	/**
-	 * Converts VersionNumber to a normalzied string in the format of
+	 * Converts VersionNumber to a normalized string in the format of
 	 * major.minor.patch.build
 	 * 
 	 * @return string The version string in default format.
@@ -164,11 +164,11 @@ class VersionNumber
 	/**
 	 * Builds version string.
 	 * 
-	 * @param integer $from First part of version to use
-	 * @param integer $to Last part of version to use
-	 * @param string $preRelease Optional pre-release string
+	 * @param integer $from          First part of version to use
+	 * @param integer $to            Last part of version to use
+	 * @param string $preRelease     Optional pre-release string
 	 * @param string $buildSeparator String that separates build numbers
-	 * @return string Version with specified parts
+	 * @return string                Version number with specified parts
 	 * @throws Exception
 	 */
 	protected function buildString( $from = 0, $to = 3, $preRelease = '', $buildSeparator = '.' ) {
@@ -201,8 +201,8 @@ class VersionNumber
 	/**
 	 * Finds a key in self::versionNumberMap that matches given string or integer.
 	 * 
-	 * @param string|integer $value Value to match
-	 * @return integer The key in self::versionNumberMap
+	 * @param  string|integer $value  Value to match
+	 * @return integer                The key in self::versionNumberMap
 	 * @throws Exception
 	 */
 	protected function seekVersionNumberMap( $value ) {

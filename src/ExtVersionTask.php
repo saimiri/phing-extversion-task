@@ -25,13 +25,11 @@ require_once 'VersionNumber.php';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * @package    No package
- * @subpackage	
+ * @package			No package
  * @copyright		Copyright (c) 2014 Saimiri Design (http://www.saimiri.fi/)
- * @author     Juha Auvinen <juha@saimiri.fi>
- * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
- * @version    Release: @package_version@
- * @since      File available since Release 1.0.0
+ * @author			Juha Auvinen <juha@saimiri.fi>
+ * @license			http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @since				File available since Release 1.0.0
  */
 class ExtVersionTask extends Task
 {
@@ -368,7 +366,7 @@ class ExtVersionTask extends Task
 			);
 		}
 		
-		$version = new VersionNumber( $versionString, $this->releaseType, $this->preRelease );
+		$version = new VersionNumber( $versionString, $this->preRelease );
 		if ( $this->custom ) {
 			$version->setCustom( $this->custom );
 		}
@@ -376,7 +374,7 @@ class ExtVersionTask extends Task
 			$version->setBuildSeparator( $this->buildSeparator );
 		}
 		if ( !$this->readOnly ) {
-			$version->increment();
+			$version->increment( $this->releaseType );
 			if ( $this->file ) {
 				$this->writeFile( $version->toNormalizedString(), $this->file );
 			}
@@ -472,8 +470,8 @@ class ExtVersionTask extends Task
 	* Validates given string or integer 
 	* 
 	* @param  type $release
-	* @return mixed Returns false if $release can't be validated, otherwise integer
-	*								representing one of the predefined release types.
+	* @return integer Integer representation of the release type
+	* @throws BuildException
 	*/
 	protected function validateReleaseType( $release, $property ) {
 		$release = strtolower( $release );
@@ -534,6 +532,20 @@ class ExtVersionTask extends Task
 			$this->property = null;
 			$this->versionString = null;
 		}
-		
+	}
+	
+	/**
+	 * An accessor method for testing purposes.
+	 * 
+	 * @param type $prop  Property to get
+	 * @return mixed      The value of property if it exists
+	 * @throws Exception
+	 */
+	public function testProp( $prop ) {
+		if ( isset( $this->$prop ) ) {
+			return $this->$prop;
+		} else {
+			throw new Exception( '"' . $prop . '" not found in ExtVersionTask' );
+		}
 	}
 }
