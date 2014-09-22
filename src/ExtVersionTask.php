@@ -55,10 +55,10 @@ class ExtVersionTask extends Task
 	*/
 	protected $defaultValues = array(
 		'buildSeparator' => '.',
-		'first' => 0,
-		'last' => 3,
-		'releaseType' => 3,
-		'readOnly' => false
+		'first'          => 0,
+		'last'           => 3,
+		'releaseType'    => 3,
+		'readOnly'       => false
 	);
 
 	/**
@@ -136,12 +136,12 @@ class ExtVersionTask extends Task
 	* @var array
 	*/
 	protected $releaseTypeMap = array(
-		'major'			=> '1',
-		'minor'			=> '2',
-		'patch'			=> '3',
-		'bugfix'		=> '3',
-		'revision'	=> '3',
-		'build'			=> '4'
+		'major'    => '1',
+		'minor'    => '2',
+		'patch'    => '3',
+		'bugfix'   => '3',
+		'revision' => '3',
+		'build'    => '4'
 	);
 
 	/**
