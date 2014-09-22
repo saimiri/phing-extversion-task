@@ -18,11 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * @package			Phing
- * @copyright		Copyright (c) 2014 Saimiri Design (http://www.saimiri.fi/)
- * @author			Juha Auvinen <juha@saimiri.fi>
- * @license			http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
- * @since				File available since Release 1.0.0
+ * @package     Phing
+ * @copyright   Copyright (c) 2014 Saimiri Design (http://www.saimiri.fi/)
+ * @author      Juha Auvinen <juha@saimiri.fi>
+ * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @since       File available since Release 1.0.0
  */
 class VersionNumber
 {
@@ -39,8 +39,8 @@ class VersionNumber
 	/**
 	 * Constructor.
 	 * 
-	 * @param string $versionString Version string
-	 * @param string $preRelease Pre-release string to use, .ie "alpha", "dev" etc.
+	 * @param string $versionString  Version string
+	 * @param string $preRelease     Pre-release string to use, .ie "alpha", "dev" etc.
 	 */
 	public function __construct( $versionString, $preRelease = null ) {
 		$versionParts = explode( '.', $versionString );
@@ -70,7 +70,8 @@ class VersionNumber
 	 * Sets custom part to be used with formatted version string.
 	 * 
 	 * @see self::getFormattedString()
-	 * @param string $custom Custom string. Whatever you want, baby.
+	 * 
+	 * @param string $custom  Custom string. Whatever you want, baby.
 	 */
 	public function setCustom( $custom ) {
 		$this->custom = $custom;
@@ -83,8 +84,8 @@ class VersionNumber
 	 * corresponding parts of the version: %major%, %minor%, %build%, %patch%,
 	 * %prerelease%, %custom%
 	 * 
-	 * @param string $format Custom format
-	 * @return string Formatted version string
+	 * @param string $format     Custom format
+	 * @return string Formatted  version string
 	 */
 	public function getFormattedString( $format ) {
 		return str_replace(
@@ -101,9 +102,9 @@ class VersionNumber
 	 * 2 or "patch" = patch version
 	 * 3 or "build" = build number
 	 * 
-	 * @param integer $from First part to get
-	 * @param integer $to Last part to get
-	 * @return string Requested parts of the version string
+	 * @param integer $from  First part to get
+	 * @param integer $to    Last part to get
+	 * @return string        Requested parts of the version string
 	 */
 	public function getPartialString( $from, $to ) {
 		$fromKey = $this->seekVersionNumberMap( $from );
@@ -116,7 +117,7 @@ class VersionNumber
 	 * Increments the specified part of version number. Accepts both string and
 	 * integer representations of the version number part.
 	 * 
-	 * @param integer $part The part of the version number to increment.
+	 * @param integer $part  The part of the version number to increment.
 	 */
 	public function increment( $part = null ) {
 		if ( $part !== null ) {
@@ -140,7 +141,7 @@ class VersionNumber
 	 * Converts VersionNumber to a normalized string in the format of
 	 * major.minor.patch.build
 	 * 
-	 * @return string The version string in default format.
+	 * @return string  The version string in default format.
 	 */
 	public function toNormalizedString() {
 		return $this->buildString( 0, 3, '', '.' );
@@ -149,7 +150,7 @@ class VersionNumber
 	/**
 	 * Converts VersionNumber to string in the format of major.minor.patch?build
 	 * 
-	 * @return string The version string in default format.
+	 * @return string  The version string in default format.
 	 */
 	public function toString() {
 		return $this->buildString( 0, 3, '', $this->buildSeparator );
@@ -164,11 +165,11 @@ class VersionNumber
 	/**
 	 * Builds version string.
 	 * 
-	 * @param integer $from          First part of version to use
-	 * @param integer $to            Last part of version to use
-	 * @param string $preRelease     Optional pre-release string
-	 * @param string $buildSeparator String that separates build numbers
-	 * @return string                Version number with specified parts
+	 * @param integer $from           First part of version to use
+	 * @param integer $to             Last part of version to use
+	 * @param string $preRelease      Optional pre-release string
+	 * @param string $buildSeparator  String that separates build numbers
+	 * @return string                 Version number with specified parts
 	 * @throws Exception
 	 */
 	protected function buildString( $from = 0, $to = 3, $preRelease = '', $buildSeparator = '.' ) {

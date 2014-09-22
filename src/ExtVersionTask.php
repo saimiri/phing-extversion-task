@@ -25,11 +25,11 @@ require_once 'VersionNumber.php';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * @package			No package
- * @copyright		Copyright (c) 2014 Saimiri Design (http://www.saimiri.fi/)
- * @author			Juha Auvinen <juha@saimiri.fi>
- * @license			http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
- * @since				File available since Release 1.0.0
+ * @package     Phing
+ * @copyright   Copyright (c) 2014 Saimiri Design (http://www.saimiri.fi/)
+ * @author      Juha Auvinen <juha@saimiri.fi>
+ * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
+ * @since       File available since Release 1.0.0
  */
 class ExtVersionTask extends Task
 {
@@ -403,8 +403,8 @@ class ExtVersionTask extends Task
 	/**
 	* Convenience method for checking if a parameter is set.
 	* 
-	* @param  string $value 
-	* @return boolean True if set, false if not.
+	* @param  string $value  Value to check
+	* @return boolean        True if set, false if not.
 	*/
 	protected function isNotSet( $value ) {
 		return ( $value === null || strlen( $value ) == 0 );
@@ -419,8 +419,8 @@ class ExtVersionTask extends Task
 	* 
 	* Does not validate the format of version string.
 	* 
-	* @param  string $file File to be checked. Must be valid file.
-	* @return string $versionString The version string.
+	* @param  string $file           File to be checked. Must be valid file.
+	* @return string $versionString  The version string.
 	* @throws BuildException
 	*/
 	protected function parseFile( $file ) {
@@ -467,10 +467,12 @@ class ExtVersionTask extends Task
 	}
 
 	/**
-	* Validates given string or integer 
+	* Validates given string or integer.
 	* 
-	* @param  type $release
-	* @return integer Integer representation of the release type
+	* TODO: Rename this method to something like "normalizeReleaseType"
+	* 
+	* @param  type $release  Releasetype, integer or string.
+	* @return integer        Integer representation of the release type
 	* @throws BuildException
 	*/
 	protected function validateReleaseType( $release, $property ) {
@@ -492,8 +494,8 @@ class ExtVersionTask extends Task
 	/**
 	* Writes version string to file.
 	* 
-	* @param string $versionString Version string
-	* @param string $file          File to use
+	* @param string $versionString  Version string
+	* @param string $file           File to use
 	*/
 	protected function writeFile( $versionString, $file ) {
 		if ( !empty( $this->fileRows ) ) {
